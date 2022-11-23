@@ -80,4 +80,3 @@ if __name__ == "__main__":
         elif COMMAND in ["cos", "tg", "sin", "log", "log10"]:
             NUM_1 = float(input("Первое число > "))
             print(match_case_calc_one(NUM_1, COMMAND))
-
