@@ -38,8 +38,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    result = [values[i : i + n] for i in range(0, len(values), n)]
-    return result
+    return [values[i : i + n] for i in range(0, len(values), n)]
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -63,8 +62,7 @@ def get_col(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str
     >>> get_col([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']], (0, 2))
     ['3', '6', '9']
     """
-    result = [grid[i][pos[1]] for i in range(len(grid))]
-    return result
+    return [grid[i][pos[1]] for i in range(len(grid))]
 
 
 def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -92,7 +90,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     (2, 0)
     """
     empty_pos = [(i, j.index(".")) for i, j in enumerate(grid) if "." in j]
-    if len(empty_pos) > 0:
+    if empty_pos:
         return empty_pos[0]
     return None
 
@@ -107,8 +105,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     >>> values == {'2', '5', '9'}
     True
     """
-    numbers = set("123456789")
-    return numbers - (set(get_block(grid, pos)) | set(get_row(grid, pos)) | set(get_col(grid, pos)))
+    return set("123456789") - (set(get_block(grid, pos)) | set(get_row(grid, pos)) | set(get_col(grid, pos)))
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -152,11 +149,11 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     for i in range(9):
         for j in range(9):
             pos = (i, j)
-            if set(get_row(solution, pos)) != possible_values:
-                return False
-            if set(get_col(solution, pos)) != possible_values:
-                return False
-            if set(get_col(solution, pos)) != possible_values:
+            if (
+                set(get_row(solution, pos)) != possible_values
+                or set(get_col(solution, pos)) != possible_values
+                or set(get_col(solution, pos)) != possible_values
+            ):
                 return False
     return True
 
@@ -186,11 +183,12 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     solve(grid)
     N = 0 if N > 81 else 81 - N
     row, col = 0, 0
-    for i in range(N):
-        while not (grid[row][col].isdigit()):
-            row = random.randint(0, len(grid) - 1)
-            col = random.randint(0, len(grid) - 1)
-        grid[row][col] = "."
+    while N:
+        row = random.randint(0, len(grid) - 1)
+        col = random.randint(0, len(grid) - 1)
+        if grid[row][col] != ".":
+            grid[row][col] = "."
+            N -= 1
     return grid
 
 
