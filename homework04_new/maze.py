@@ -232,7 +232,7 @@ def add_path_to_grid(
     :param path:
     :return:
     """
-    if path :
+    if path:
         for i, row in enumerate(grid):
             for j, _ in enumerate(row):
                 if (i, j) in path:
