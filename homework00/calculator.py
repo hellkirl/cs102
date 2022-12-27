@@ -7,7 +7,7 @@ def convert(num: int, base: int) -> int:
     res = 0
     n = 1
     while num > 0:
-        res += (num % base) * n
+        res += n * (num % base)
         n *= 10
         num //= base
     return res
@@ -67,9 +67,12 @@ if __name__ == "__main__":
         if COMMAND.isdigit() and int(COMMAND) == 0:
             break
         if COMMAND in ["+", "-", "/", "*", "^"]:
-            NUM_1 = float(input("Первое число > "))
-            NUM_2 = float(input("Второе число > "))
-            print(calc(NUM_1, NUM_2, COMMAND))
+            try:
+                NUM_1 = float(input("Первое число > "))
+                NUM_2 = float(input("Второе число > "))
+                print(calc(NUM_1, NUM_2, COMMAND))
+            except Exception:
+                print("Неверный ввод")
         if COMMAND.lower() in ["^2", "tan", "cos", "sin", "log", "ln", "sqrt"]:
             try:
                 NUM = float(input("Число > "))
