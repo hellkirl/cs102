@@ -17,7 +17,7 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     :return:
     """
     i, j = coord[0], coord[1]
-    direction = choice([1, 0])
+    direction = choice((1, 0))
     if direction == 0:
         if j == len(grid[0]) - 2 and i != 1:
             grid[i - 1][j] = " "
