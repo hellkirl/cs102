@@ -17,8 +17,8 @@ def remove_wall(grid: List[List[Union[str, int]]], coord: Tuple[int, int]) -> Li
     :return:
     """
     i, j = coord[0], coord[1]
-    direction = choice([True, False])
-    if not direction:
+    direction = choice([1, 0])
+    if direction == 0:
         if j == len(grid[0]) - 2 and i != 1:
             grid[i - 1][j] = " "
         else:
@@ -51,8 +51,8 @@ def bin_tree_maze(rows: int = 15, cols: int = 15, random_exit: bool = True) -> L
     for i in empty_cells:  # type: ignore
         cell_one = i[0]  # type: ignore
         cell_two = i[1]  # type: ignore
-        remove_wall(grid, (cell_one, cell_two))
-    if grid[1][len(grid) - 1] != "■":
+        grid = remove_wall(grid, (cell_one, cell_two))
+    if grid[1][len(grid) - 1] != "■":  # fix
         grid[1][len(grid) - 1] = "■"
     if grid[0][len(grid[0]) - 2] != "■":
         grid[0][len(grid[0]) - 2] = "■"
@@ -95,8 +95,8 @@ def make_step(grid: List[List[Union[str, int]]], k: int) -> List[List[Union[str,
     :return:
     """
 
-    for r in range(len(grid)):
-        for c in range(len(grid[0])):
+    for r, x in enumerate(grid):
+        for c, y in enumerate(grid[0]):
             if grid[r][c] == k:
                 if r + 1 <= len(grid) - 1 and grid[r + 1][c] == 0:
                     grid[r + 1][c] = k + 1
@@ -201,8 +201,8 @@ def solve_maze(
             return grid, None
         grid[start[0]][start[1]] = 1
         grid[finish[0]][finish[1]] = 0
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
+        for r, _ in enumerate(grid):
+            for c, y in enumerate(grid[0]):
                 if grid[r][c] == " ":
                     grid[r][c] = 0
 
