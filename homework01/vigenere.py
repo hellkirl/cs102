@@ -1,8 +1,3 @@
-len_alph = 26
-beginning_lower = ord("a")
-beginning_upper = ord("A")
-
-
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
@@ -13,6 +8,10 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
     'LXFOPVEFRNHR'
     """
+    len_alph = 26
+    beginning_lower = ord("a")
+    beginning_upper = ord("A")
+
     ciphertext = ""
 
     shift = [keyword[i % len(keyword)] for i in range(len(plaintext))]
@@ -43,6 +42,9 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("tfvzzvwkeaqv lq aqvpzf", "lsci")
     'introduction to python'
     """
+    len_alph = 26
+    beginning_lower = ord("a")
+    beginning_upper = ord("A")
     plaintext = ""
 
     shift = [keyword[i % len(keyword)] for i in range(len(ciphertext))]
