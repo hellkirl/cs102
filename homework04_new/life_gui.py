@@ -27,7 +27,6 @@ class GUI(UI):
         grid = self.life.curr_generation
         for row in range(self.life.rows):
             for col in range(self.life.cols):
-
                 if grid[row][col] != 1:
                     color = "white"
                 else:
