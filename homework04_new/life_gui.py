@@ -1,10 +1,9 @@
-from typing import Tuple
+from typing import Tuple  # type: ignore
 
 import pygame  # type: ignore
+from life import GameOfLife  # type: ignore
 from pygame.locals import *  # type: ignore
-
-from life import GameOfLife
-from ui import UI
+from ui import UI  # type: ignore
 
 
 class GUI(UI):
