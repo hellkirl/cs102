@@ -1,25 +1,58 @@
----
-title: "R Notebook"
-output: html_document
----
-
-The [R plugin](https://www.jetbrains.com/help/pycharm/r-plugin-support.html) for IntelliJ-based IDEs provides
-handy capabilities to work with the [R Markdown](https://www.jetbrains.com/help/pycharm/r-markdown.html) files.
-To [add](https://www.jetbrains.com/help/pycharm/r-markdown.html#add-code-chunk) a new R chunk,
+# Дескриптивный анализ данных
 ```{r}
+# Задание 1
+
+setwd('/Users/kirillprivalov/Desktop/University/Year 1/Programming/cs102/homework06')
+
+dataframe <- read.csv('music_genre.csv')
+
+df <- dataframe[sample(nrow(dataframe), 20000),]
+
+df <- df[!duplicated(df),]
+
+df <- df[!(df$artist_name == 'empty_field'),]
+
+print(df)
+```
+```{r}
+# Задание 2
+library(ggplot2)
+
+# 2.1
+genre_percentage <- table(df$music_genre) / length(df$music_genre) * 100
+genre_percentage_df <- data.frame(Music_genre = names(genre_percentage), Percentage = genre_percentage)
+print(genre_percentage_df)
+
+# 2.2
+genres <- names(table(df$music_genre))
+values <- as.vector(table(df$music_genre))
+df_genre_val <- data.frame(Music_genre = genres, Values = values)
+cc <- ifelse(values < max(values), "grey", "red")
+ggplot(df_genre_val, aes(x = Values, y = Music_genre, fill = Music_genre)) +
+  geom_bar(stat = "identity") +
+  scale_fill_hue(l = 40) +
+  scale_x_continuous(limits = c(0, max(values) + 10)) +
+  theme_minimal() +
+  theme(panel.grid.major = element_line(colour = "gray"))
+
+# 2.3
+
+
+# 2.4
 
 ```
-position the caret at any line or the code chunk, then click "+".
-
-The code chunk appears:
 ```{r}
+library(magrittr)
+library(dplyr)
+max_min_artist <- df %>% group_by(artist_name) %>% summarise(num_of_tracks = n()) %>% arrange(num_of_tracks)
+max_min_artist[c(1, nrow(max_min_artist)), ]
+top_twenty_artists <- max_min_artist %>% filter(rank(num_of_tracks) <= 20)
+ggplot(top_twenty_artists, aes(x = num_of_tracks, y = artist_name)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme_minimal() +
+  theme(panel.grid.major = element_line(colour = "gray"),
+        axis.text.y = element_text(size = 8)) +
+  xlab("Value") +
+  ylab("Artist name")
 ```
 
-Type any R code in the chunk, for example:
-```{r}
-mycars <- within(mtcars, { cyl <- ordered(cyl) })
-mycars
-```
-
-Now, click the **Run** button on the chunk toolbar to [execute](https://www.jetbrains.com/help/pycharm/r-markdown.html#run-r-code) the chunk code. The result should be placed under the chunk.
-Click the **Knit and Open Document** to build and preview an output.
