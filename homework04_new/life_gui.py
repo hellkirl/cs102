@@ -30,7 +30,7 @@ class GUI(UI):
                 if grid[row][col] != 1:
                     color = "white"
                 else:
-                    color = "green"
+                    color = "black"
 
                 pygame.draw.rect(
                     self.screen,
@@ -77,6 +77,6 @@ class GUI(UI):
 
 
 if __name__ == "__main__":
-    life = GameOfLife((50, 90), max_generations=50)
-    ui = GUI(life)
+    life = GameOfLife((90, 90), max_generations=10000)
+    ui = GUI(life, 5)
     ui.run()
