@@ -4,9 +4,10 @@ import json
 import pandas as pd
 import re
 from datetime import datetime, timedelta
-from tabulate import tabulate
+# from tabulate import tabulate
+from authorization import bot_token, sheets_id
 
-bot = telebot.TeleBot("6250275759:AAHTme7QlqaSJwOhHdYUxZNIaQXn4DsqjM8")
+bot = telebot.TeleBot(bot_token)
 
 
 def is_valid_date(date: str = "01/01/00", divider: str = "/") -> bool:
@@ -35,7 +36,7 @@ def is_valid_date(date: str = "01/01/00", divider: str = "/") -> bool:
 
 def is_valid_url(url: str = "") -> bool:
     """Проверяем, что ссылка рабочая"""
-    regex = r"^(https?://)?(www\.)?([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,}$"
+    regex =
     return re.match(regex, url) is not None
 
 
@@ -47,7 +48,7 @@ def convert_date(date: str = "01/01/00"):
 def connect_table(message):
     """Подключаемся к Google-таблице"""
     url = message.text
-    sheet_id = "1TkvBrji118uBlewa8coYLCJS8RHbxgs5fpICLVT86tI"
+    sheet_id = sheets_id
     try:
         with open("tables.json") as json_file:
             tables = json.load(json_file)
@@ -193,4 +194,4 @@ def edit_deadline(message):
     bot.register_next_step_handler(info, choose_deadline_action, callback=all_messages)
 
 
-bot.infinity_polling()
+# bot.infinity_polling()
