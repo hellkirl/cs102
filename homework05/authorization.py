@@ -1,2 +1,0 @@
-bot_token = "6250275759:AAHTme7QlqaSJwOhHdYUxZNIaQXn4DsqjM8"
-sheets_id = "1TkvBrji118uBlewa8coYLCJS8RHbxgs5fpICLVT86tI"
