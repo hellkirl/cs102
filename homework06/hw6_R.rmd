@@ -36,23 +36,33 @@ ggplot(df_genre_val, aes(x = Values, y = Music_genre, fill = Music_genre)) +
   theme(panel.grid.major = element_line(colour = "gray"))
 
 # 2.3
-
+danceability_percentage <- select(df, c("music_genre", "danceability"))
+danceable_genre <- danceability_percentage %>%
+  group_by(music_genre) %>%
+  summarise(danceability = mean(danceability)) %>%
+  arrange(danceability) %>%
+  tail(1) %>%
+  ungroup() %>%
+  select(-1)
 
 # 2.4
+genre_mode <- df %>%
+  select(music_genre, mode) %>%
+  count(music_genre, mode)
+```
+```{r}
 
 ```
 ```{r}
-library(magrittr)
-library(dplyr)
-max_min_artist <- df %>% group_by(artist_name) %>% summarise(num_of_tracks = n()) %>% arrange(num_of_tracks)
-max_min_artist[c(1, nrow(max_min_artist)), ]
-top_twenty_artists <- max_min_artist %>% filter(rank(num_of_tracks) <= 20)
-ggplot(top_twenty_artists, aes(x = num_of_tracks, y = artist_name)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  theme_minimal() +
-  theme(panel.grid.major = element_line(colour = "gray"),
-        axis.text.y = element_text(size = 8)) +
-  xlab("Value") +
-  ylab("Artist name")
-```
+features <- df[, c("acousticness", "danceability", "duration_ms", "energy", "instrumentalness", "liveness", "loudness", "speechiness", "tempo", "valence", "popularity")] %>%
+  select_if(~ !is.character(.))
+features_corr_matrix <- cor(features)
+heatmap(features_corr_matrix)
 
+popularity_namelen <- df[, c("popularity", "track_name")]
+popularity_namelen <- popularity_namelen[complete.cases(popularity_namelen), ]
+popularity_namelen$track_name <- nchar(popularity_namelen$track_name)
+popularity_namelen_corr <- cor(popularity_namelen)
+print(popularity_namelen_corr)
+
+```
