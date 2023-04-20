@@ -1,3 +1,7 @@
 .DS_Store
 __pycache__/
 *.pyc
+.idea/
+homework05/authorization.py
+homework05/credentials.json
+homework05/tables.json
