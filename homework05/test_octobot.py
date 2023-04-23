@@ -16,8 +16,8 @@ class TestOctobot(unittest.TestCase):
         today = datetime.today().date().strftime("%d/%m/%y")
         self.assertTrue(octobot.is_valid_date(today, "/"))
         self.assertFalse(octobot.is_valid_date("05/09/30", "/"))
-        self.assertTrue(octobot.is_valid_date("04.05.23", "."))
         self.assertFalse(octobot.is_valid_date("35/04/23", "/"))
+        self.assertTrue(octobot.is_valid_date("04.05.23", "."))
 
     def test_is_valid_url(self):
         self.assertTrue(octobot.is_valid_url("https://itmo.ru"))
