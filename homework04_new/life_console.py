@@ -44,12 +44,12 @@ class Console(UI):
         while True:
             self.draw_grid(screen)
             screen.refresh()
-            sleep(1)
+            sleep(0.1)
             self.life.step()
 
 
 if __name__ == "__main__":
-    game = GameOfLife(size=(20, 50), randomize=True, max_generations=100)
+    game = GameOfLife(size=(20, 50), randomize=True, max_generations=20)
     console = Console(life=game)
     console.run()
 
