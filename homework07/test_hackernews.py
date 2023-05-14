@@ -7,6 +7,7 @@ from boddle import boddle
 from bottle import HTTPResponse
 
 from hackernews import add_label, classify_news, update_news
+
 from homework07.db import News
 
 
