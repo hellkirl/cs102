@@ -9,7 +9,6 @@ import telebot
 from authorization import bot_token, sheets_id
 from dateutil.parser import parse
 
-
 bot = telebot.TeleBot(bot_token)
 
 
