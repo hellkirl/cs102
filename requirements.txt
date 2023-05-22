@@ -15,5 +15,5 @@ boddle~=0.2.9
 numpy~=1.24.3
 nltk~=3.8.1
 rsa~=4.9
-gspread~=5.9.0
-telebot~=0.0.5
+gspread==5.9.0
+telebot==0.0.5
