@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 from os.path import exists
 
-import gspread  # type: ignore
+# import gspread
 import pandas as pd  # type: ignore
 import telebot  # type: ignore
 from authorization import bot_token, sheets_id
