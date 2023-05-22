@@ -5,7 +5,7 @@ from os.path import exists
 
 # import gspread
 import pandas as pd  # type: ignore
-import telebot  # type: ignore
+# import telebot
 from authorization import bot_token, sheets_id
 from dateutil.parser import parse  # type: ignore
 
