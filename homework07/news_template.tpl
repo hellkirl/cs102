@@ -10,6 +10,7 @@
         <tfoot class="full-width">
                 <nav>
                     <li><a href="/classify">Classify my newsfeed!</a></li>
+                    <li><a href="/recommendations">My classified recommendations</a></li>
                 </nav>
         <table class="ui celled table">
             <thead>

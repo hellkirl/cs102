@@ -4,14 +4,14 @@ import unittest
 
 import numpy as np
 
-from homework07.bayes import NaiveBayesClassifier
+from ..bayes import NaiveBayesClassifier
 
 PATH_FOR_GIT = "/Users/kirillprivalov/Desktop/University/Year 1/Programming/cs102/homework07/data/"
 
 
 class TestBayes(unittest.TestCase):
     def test_fit_predict(self):
-        X_train = [
+        X_train = np.array([
             "I love this sandwich",
             "this is an amazing place",
             "I feel very good about these beers",
@@ -22,8 +22,8 @@ class TestBayes(unittest.TestCase):
             "I cant deal with this",
             "he is my sworn enemy",
             "my boss is horrible",
-        ]
-        Y_train = [
+        ])
+        Y_train = np.array([
             "Positive",
             "Positive",
             "Positive",
@@ -34,16 +34,16 @@ class TestBayes(unittest.TestCase):
             "Negative",
             "Negative",
             "Negative",
-        ]
-        X_test = [
+        ])
+        X_test = np.array([
             "the beer was good",
             "I do not enjoy my job",
             "I aint feeling dandy today",
             "I feel amazing",
             "Gary is a friend of mine",
             "I cant believe I'm doing this",
-        ]
-        Y_test = ["Positive", "Negative", "Negative", "Positive", "Negative", "Negative"]
+        ])
+        Y_test = np.array(["Positive", "Negative", "Negative", "Positive", "Negative", "Negative"])
         model = NaiveBayesClassifier()
         model.fit(X_train, Y_train)
         Y_output = model.predict(X_test)

@@ -1,6 +1,6 @@
 import pandas as pd
-import scipy.integrate
 from bottle import redirect, request, route, run, template
+from sklearn.feature_extraction.text import CountVectorizer
 
 from homework07.bayes import NaiveBayesClassifier
 from homework07.db import News, session
@@ -54,39 +54,52 @@ def update_news():
     redirect("/")
 
 
-def clean(s):
-    from string import punctuation
+def preprocess_string(s: str) -> str:
+    """
+    The function uses re to preprocess the string
+    """
+    import re
+    # replacing non-alphabetic symbols
+    cleaned_s = re.sub(r"[^a-z\s]+", " ", s, flags=re.IGNORECASE)
+    # replacing multiple spaces
+    cleaned_s = re.sub(r"(\s+)", " ", cleaned_s)
+    # converting to lowercase
+    cleaned_s = cleaned_s.lower()
 
-    translator = str.maketrans("", "", punctuation)
-    return s.translate(translator)
+    return cleaned_s
 
 
 @route("/classify")
 def classify_news():
-    """Classifies news using MultinomialNB"""
+    """Classifies news"""
 
     s = session()
-
     model = NaiveBayesClassifier()
-    unlabeled_news = [clean(article.title).lower() for article in s.query(News).filter(News.label == None).all()]
-    unlabeled_news_id = [article.id for article in s.query(News).filter(News.label == None).all()]
-    X, y = (
-        [clean(article.title).lower() for article in s.query(News).filter(News.label != None).all()],
-        [article.label for article in s.query(News).filter(News.label != None).all()],
-    )
-    model.fit(X, y)
-    classified_news = zip(unlabeled_news_id, model.predict(unlabeled_news))
 
+    unlabeled_news = [preprocess_string(article.title) for article in s.query(News).filter(News.label == None).all()]
+    unlabeled_news_ids = [article.id for article in s.query(News).filter(News.label == None).all()]
+
+    labeled_news = [preprocess_string(article.title) for article in s.query(News).filter(News.label != None).all()]
+    labeled_news_label = [article.label for article in s.query(News).filter(News.label != None).all()]
+
+    model.fit(labeled_news, labeled_news_label)
+    classified_news_list = zip(unlabeled_news_ids, model.predict(unlabeled_news))
     classification = []
-    for id, label in classified_news:
+    for id, label in classified_news_list:
         for article in s.query(News).filter(News.label == None).all():
             if article.id == id:
-                article_unlabeled = article
-                article_unlabeled.label = label
-                classification.append(article_unlabeled)
+                article.label = label
+                classification.append(article)
+                s.commit()
 
     classification.sort(key=lambda article: article.label)
-    return template("news_recommendations", rows=classification)
+    return classification
+
+
+@route("/recommendations")
+def recommendations():
+    classified_news = classify_news()
+    return template("news_recommendations", rows=classified_news)
 
 
 if __name__ == "__main__":
