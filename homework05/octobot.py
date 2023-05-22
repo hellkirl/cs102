@@ -6,9 +6,9 @@ from os.path import exists
 import gspread
 import pandas as pd
 import telebot
+from authorization import bot_token, sheets_id
 from dateutil.parser import parse
 
-from authorization import bot_token, sheets_id
 
 bot = telebot.TeleBot(bot_token)
 
