@@ -7,7 +7,7 @@ import gspread  # type: ignore
 import pandas as pd  # type: ignore
 import telebot  # type: ignore
 from authorization import bot_token, sheets_id
-from dateutil.parser import parse
+from dateutil.parser import parse  # type: ignore
 
 bot = telebot.TeleBot(bot_token)
 
