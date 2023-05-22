@@ -358,4 +358,4 @@ def all_messages(message):
     bot.register_next_step_handler(info, choose_action)
 
 
-bot.infinity_polling()
+# bot.infinity_polling()
