@@ -62,7 +62,7 @@ class NaiveBayesClassifier:
             for feature in vectorizer.vocabulary_.keys():
                 feature_count = self.feature_probabilities[label][feature]
                 self.feature_probabilities[label][feature] = (feature_count + alpha) / (
-                        total_features + alpha * len(vectorizer.vocabulary_)
+                    total_features + alpha * len(vectorizer.vocabulary_)
                 )
 
     def predict(self, X):
