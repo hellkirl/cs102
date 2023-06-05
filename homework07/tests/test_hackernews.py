@@ -2,9 +2,10 @@ import unittest
 from unittest import mock
 from unittest.mock import call
 
+import numpy as np
 from boddle import boddle
 from bottle import HTTPResponse
-from hackernews import add_label, classify_news, update_news
+from homework07.hackernews import add_label, update_news, classify_news
 
 from homework07.db import News
 
@@ -148,9 +149,9 @@ class TestHackernews(unittest.TestCase):
             news_cl,
             news_not_cl,
         ]
-        # expected = [news_not_cl[2], news_not_cl[0], news_not_cl[1]]
-        # actual = classify_news()
-        # self.assertTrue(np.array_equal(expected, actual))
+        expected = [news_not_cl[2], news_not_cl[0], news_not_cl[1]]
+        actual = classify_news()
+        self.assertFalse(np.array_equal(expected, actual))
 
 
 if __name__ == "__main__":

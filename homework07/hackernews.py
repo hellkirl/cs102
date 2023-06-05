@@ -1,6 +1,5 @@
 import pandas as pd
 from bottle import redirect, request, route, run, template
-from sklearn.feature_extraction.text import CountVectorizer
 
 from homework07.bayes import NaiveBayesClassifier
 from homework07.db import News, session
@@ -46,7 +45,7 @@ def update_news():
     s = session()
     existing_news = [i.title for i in s.query(News).all()]
 
-    for news in get_news("https://news.ycombinator.com/newest", n_pages=5):
+    for news in get_news("https://news.ycombinator.com/", n_pages=3):
         if news["title"] not in existing_news:
             s.add(News(**news))
             s.commit()
@@ -59,6 +58,7 @@ def preprocess_string(s: str) -> str:
     The function uses re to preprocess the string
     """
     import re
+
     # replacing non-alphabetic symbols
     cleaned_s = re.sub(r"[^a-z\s]+", " ", s, flags=re.IGNORECASE)
     # replacing multiple spaces
@@ -75,30 +75,33 @@ def classify_news():
 
     s = session()
     model = NaiveBayesClassifier()
+    try:
+        unlabeled_news = [article.title for article in s.query(News).filter(News.label == None).all()]
 
-    unlabeled_news = [preprocess_string(article.title) for article in s.query(News).filter(News.label == None).all()]
-    unlabeled_news_ids = [article.id for article in s.query(News).filter(News.label == None).all()]
+        labeled_news = [preprocess_string(article.title) for article in s.query(News).filter(News.label != None).all()]
+        labeled_news_label = [article.label for article in s.query(News).filter(News.label != None).all()]
 
-    labeled_news = [preprocess_string(article.title) for article in s.query(News).filter(News.label != None).all()]
-    labeled_news_label = [article.label for article in s.query(News).filter(News.label != None).all()]
+        model.fit(labeled_news, labeled_news_label)
 
-    model.fit(labeled_news, labeled_news_label)
-    classified_news_list = zip(unlabeled_news_ids, model.predict(unlabeled_news))
-    classification = []
-    for id, label in classified_news_list:
-        for article in s.query(News).filter(News.label == None).all():
-            if article.id == id:
-                article.label = label
-                classification.append(article)
-                s.commit()
+        predicted_news = zip(unlabeled_news, model.predict(unlabeled_news))
 
-    classification.sort(key=lambda article: article.label)
-    return classification
+        return predicted_news
+    except Exception:
+        pass
 
 
 @route("/recommendations")
 def recommendations():
-    classified_news = classify_news()
+    s = session()
+    news = classify_news()
+
+    for title, label in news:
+        for article in s.query(News).filter(News.label == None).all():
+            if article.title == title:
+                article.label = label
+                s.commit()
+
+    classified_news = sorted(s.query(News).filter(News.label != "never"), key=lambda x: x.label)
     return template("news_recommendations", rows=classified_news)
 
 

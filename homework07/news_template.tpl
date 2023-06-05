@@ -9,8 +9,7 @@
         <div class="ui container" style="padding-top: 10px;">
         <tfoot class="full-width">
                 <nav>
-                    <li><a href="/classify">Classify my newsfeed!</a></li>
-                    <li><a href="/recommendations">My classified recommendations</a></li>
+                    <li><a href="/recommendations">Classify my newsfeed!</a></li>
                 </nav>
         <table class="ui celled table">
             <thead>
