@@ -5,9 +5,9 @@ from unittest.mock import call
 import numpy as np
 from boddle import boddle
 from bottle import HTTPResponse
-from homework07.hackernews import add_label, update_news, classify_news
 
 from homework07.db import News
+from homework07.hackernews import add_label, classify_news, update_news
 
 
 class TestHackernews(unittest.TestCase):
