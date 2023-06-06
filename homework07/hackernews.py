@@ -45,7 +45,7 @@ def update_news():
     s = session()
     existing_news = [i.title for i in s.query(News).all()]
 
-    for news in get_news("https://news.ycombinator.com/", n_pages=3):
+    for news in get_news("https://news.ycombinator.com/"):
         if news["title"] not in existing_news:
             s.add(News(**news))
             s.commit()
