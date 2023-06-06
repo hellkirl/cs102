@@ -8,6 +8,8 @@ from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
+nltk.download("stopwords")
+
 
 class NaiveBayesClassifier:
     def __init__(self, lemmatize=False, stem=False, ngram_range=(1, 1)):
