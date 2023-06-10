@@ -245,7 +245,7 @@ def update_subject_deadline(message, subject, task):
         today = datetime.now()
         if date > today + timedelta(days=365):
             info = bot.send_message(
-                message.chat.id, "Дедлайн не должен быть больше, чем через год\nВведите другую дату дедлайна"
+                message.chat.id, "Дедлайн не должен быть больше, чем через год \nВведите другую дату дедлайна"
             )
             bot.register_next_step_handler(info, update_subject_deadline, subject, task)
             return
