@@ -6,7 +6,7 @@ from os.path import exists
 import dateutil  # type: ignore
 import gspread  # type: ignore
 import pandas as pd  # type: ignore
-import requests
+import requests  # type: ignore
 import telebot  # type: ignore
 from dateutil.parser import parse  # type: ignore
 
