@@ -5,3 +5,4 @@ __pycache__/
 homework05/authorization.py
 homework05/credentials.json
 homework05/tables.json
+homework05/config.py
