@@ -5,6 +5,7 @@ import community  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 import networkx as nx  # type: ignore
 import pandas as pd  # type: ignore
+
 from vkapi.friends import get_friends, get_mutual
 
 
