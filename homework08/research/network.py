@@ -1,10 +1,10 @@
 import typing as tp
 from collections import defaultdict
 
-import community
-import matplotlib.pyplot as plt
-import networkx as nx
-import pandas as pd
+import community  # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
+import networkx as nx  # type: ignore
+import pandas as pd  # type: ignore
 from vkapi.friends import get_friends, get_mutual
 
 
@@ -17,16 +17,15 @@ def ego_network(
     :param user_id: Идентификатор пользователя, для которого строится граф друзей.
     :param friends: Идентификаторы друзей, между которыми устанавливаются связи.
     """
-    if friends is None:
-        friends = get_friends(user_id=user_id, fields=["nickname"]).items  # type: ignore
-        active_friends = [user["id"] for user in friends if not user.get("deactivated") and not user.get("is_closed")]  # type: ignore
-    else:
-        active_friends = friends
-    items = get_mutual(source_uid=user_id, target_uids=active_friends)
-    net = []
-    for item in items:
-        net.extend([(item["id"], mutual) for mutual in item["common_friends"]])  # type: ignore
-    return net
+    loc = []
+    ad_friends_ = get_mutual(user_id, target_uids=friends, count=len(friends))  # type: ignore
+    for friend in ad_friends_:
+        friend_id = friend.get("id")  # type: ignore
+        common_friends = friend.get("common_friends")  # type: ignore
+        if friend_id is not None and common_friends is not None:
+            for person in common_friends:
+                loc.append((friend_id, person))
+    return loc
 
 
 def plot_ego_network(net: tp.List[tp.Tuple[int, int]]) -> None:
@@ -74,3 +73,11 @@ def describe_communities(
                     data.append([cluster_n] + [friend.get(field) for field in fields])
                     break
     return pd.DataFrame(data=data, columns=["cluster"] + fields)
+
+
+if __name__ == "__main__":
+    friends_response = get_friends(user_id=183238121, fields=["nickname"])
+    active_friends = [user["id"] for user in friends_response.items if not user.get("deactivated")]  # type: ignore
+    net = ego_network(user_id=183238121, friends=active_friends)
+    communities = get_communities(net)
+    df = describe_communities(communities, friends_response.items, fields=["first_name", "last_name"])  # type: ignore

@@ -95,15 +95,12 @@ def get_mutual(
         url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uid={target_uid}&count={count}&offset={offset}&v={version_}"
         friends = session_.get(url)
         results_of_requests.extend(friends.json()["response"])
-    except:
+    except Exception as e:
         pass
     return results_of_requests
 
 
 if __name__ == "__main__":
-    friends_response = get_friends(user_id=5966700, fields=["nickname"])
-    active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]  # type: ignore
-    print("Number of friends:", len(active_users))
-    mutual_friends = get_mutual(source_uid=5966700, target_uid=183238121, count=len(active_users))
-    print("Number of mutual friends:", len(mutual_friends))
-    print("the IDs of mutual friends:", mutual_friends)
+    friends_response = get_friends(user_id=183238121, fields=["nickname"])
+    active_friends = [user["id"] for user in friends_response.items if not user.get("deactivated")]  # type: ignore
+    mutual_friends = get_mutual(source_uid=5966700, target_uid=183238121, count=len(active_friends))
