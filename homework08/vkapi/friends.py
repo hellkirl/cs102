@@ -106,4 +106,4 @@ if __name__ == "__main__":
     print("Number of friends:", len(active_users))
     mutual_friends = get_mutual(source_uid=5966700, target_uid=183238121, count=len(active_users))
     print("Number of mutual friends:", len(mutual_friends))
-    print("List of the IDs of mutual friends:", mutual_friends)
+    print("the IDs of mutual friends:", mutual_friends)
