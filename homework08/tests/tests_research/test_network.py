@@ -2,7 +2,6 @@ import re
 import unittest
 
 import responses  # type: ignore
-
 from research.network import ego_network
 
 

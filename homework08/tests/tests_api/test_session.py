@@ -9,7 +9,6 @@ from requests.exceptions import (  # type: ignore
     ReadTimeout,
     RetryError,
 )
-
 from vkapi.session import Session  # type: ignore
 
 
