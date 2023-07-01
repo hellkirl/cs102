@@ -10,7 +10,7 @@ import requests  # type: ignore
 import telebot  # type: ignore
 from dateutil.parser import parse  # type: ignore
 
-bot = telebot.TeleBot("6250275759:AAHTme7QlqaSJwOhHdYUxZNIaQXn4DsqjM8")
+bot = telebot.TeleBot("")
 
 
 def is_valid_date(date: str = "01/01/00", divider: str = "/") -> bool:
@@ -60,7 +60,7 @@ def convert_date(date: str = "01/01/00"):
 def connect_table(message):
     """Подключаемся к Google-таблице"""
     url = message.text
-    sheet_id = "1TkvBrji118uBlewa8coYLCJS8RHbxgs5fpICLVT86tI"
+    sheet_id = ""
     try:
         with open("tables.json") as json_file:
             tables = json.load(json_file)
